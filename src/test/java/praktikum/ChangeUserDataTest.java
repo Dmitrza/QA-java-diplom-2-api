@@ -1,5 +1,6 @@
 package praktikum;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ChangeUserDataTest {
 
+    Faker faker = new Faker();
     User user;
     User secondUser;
     String token;
@@ -22,8 +24,10 @@ public class ChangeUserDataTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-        user = new User("dmitrz20@example.ru", "password", "Dmitrii");
-        secondUser = new User("aleksandr20@example.ru", "56789", "Aleksandr");
+        user = new User(faker.internet().emailAddress(),
+                faker.internet().password(6,10),
+                faker.name().firstName());
+        secondUser = new User(faker.internet().emailAddress(), faker.internet().password(6,10), faker.name().firstName());
     }
 
     @Test

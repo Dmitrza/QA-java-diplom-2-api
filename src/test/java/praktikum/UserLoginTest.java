@@ -1,5 +1,6 @@
 package praktikum;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
@@ -14,13 +15,16 @@ import static praktikum.UserCreds.credsFromUser;
 
 public class UserLoginTest {
 
+    Faker faker = new Faker();
     User user;
     String token;
 
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-        user = new User("dmitrz20@example.ru", "password", "Dmitrii");
+        user = new User(faker.internet().emailAddress(),
+                faker.internet().password(6,10),
+                faker.name().firstName());
     }
 
     @Test
